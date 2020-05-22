@@ -4,11 +4,11 @@ import asyncpg
 class WordRepository:
     async def find_by_name(self, word, db_dsn):
         query = """
-        SELECT 
-            name, meaning, dictionary.fa_name 
-        FROM 
-            word inner join dictionary on word.dictionary_id = dictionary.id 
-        WHERE 
+        SELECT
+            name, meaning, dictionary.fa_name
+        FROM
+            word inner join dictionary on word.dictionary_id = dictionary.id
+        WHERE
             name = $1
         """
         conn = await asyncpg.connect(db_dsn)
@@ -18,9 +18,9 @@ class WordRepository:
 
     async def find_by_name_and_dictionary(self, word, db_dsn):
         query = """
-        SELECT 
-            name, meaning, dictionary.fa_name 
-        FROM 
+        SELECT
+            name, meaning, dictionary.fa_name
+        FROM
             word inner join dictionary on word.dictionary_id = dictionary.id
         WHERE name = $1 and dictionary.id = $2;
         """

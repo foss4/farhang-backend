@@ -7,7 +7,7 @@ from .repository import DictionaryRepositoryInstance, WordRepositoryInstance
 async def dic_list(request):
     """ return list of available dictionaries """
     results = await DictionaryRepositoryInstance.get_all_dictionaries(
-        request.app.config.get("DB_DSN")
+        request.app.pool
     )
     return json(
         [{"id": key, "name": value} for key, value in dict(results).items()]
@@ -19,7 +19,7 @@ async def get_word_by_dic(request, dictionary_id, name):
     word = Word(name=name, dictionary=dictionary_id)
     results = await WordRepositoryInstance.find_by_name_and_dictionary(
         word,
-        request.app.config.get("DB_DSN")
+        request.app.pool
     )
     return json(
         [
@@ -37,7 +37,7 @@ async def get_word(request, name):
     word = Word(name=name)
     results = await WordRepositoryInstance.find_by_name(
         word,
-        request.app.config.get("DB_DSN")
+        request.app.pool
     )
     return json(
         [

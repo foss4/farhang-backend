@@ -1,5 +1,6 @@
 import os
 
+import asyncpg
 from sanic import Sanic
 
 from dictionary.urls import dic_bp_v1
@@ -11,6 +12,22 @@ os.environ.setdefault("YATIM_SETTINGS", dir_path)
 app.config.from_envvar('YATIM_SETTINGS')
 
 app.blueprint(dic_bp_v1)
+
+
+@app.listener('before_server_start')
+async def register_db(app, loop):
+    # Create a database connection pool
+    app.pool = await asyncpg.create_pool(
+        app.config.get("DB_DSN"),
+        loop=loop
+    )
+
+
+@app.listener('after_server_stop')
+async def close_connection(app, loop):
+    async with app.pool as conn:
+        await conn.close()
+
 
 if __name__ == "__main__":
     app.run(

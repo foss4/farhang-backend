@@ -1,8 +1,8 @@
 import os
 
 import asyncpg
-from sanic import Sanic
 from aioredis import create_redis_pool
+from sanic import Sanic
 
 from dictionary.urls import dic_bp_v1
 

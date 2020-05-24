@@ -1,8 +1,7 @@
-from sanic.response import json
+from utils.decorators import cache
 
 from .models import Word
 from .repository import DictionaryRepositoryInstance, WordRepositoryInstance
-from utils.decorators import cache
 
 
 @cache

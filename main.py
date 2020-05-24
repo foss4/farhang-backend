@@ -2,6 +2,7 @@ import os
 
 import asyncpg
 from sanic import Sanic
+from aioredis import create_redis_pool
 
 from dictionary.urls import dic_bp_v1
 
@@ -16,11 +17,23 @@ app.blueprint(dic_bp_v1)
 
 @app.listener('before_server_start')
 async def register_db(app, loop):
-    # Create a database connection pool
     app.pool = await asyncpg.create_pool(
         app.config.get("DB_DSN"),
         loop=loop
     )
+
+
+@app.listener('before_server_start')
+async def register_cache(app, loop):
+    app.cache = await create_redis_pool(
+        app.config.get("CACHE_DSN"),
+        loop=loop
+    )
+
+
+@app.listener('after_server_stop')
+async def close_cache(app, loop):
+    await app.cache.wait_closed()
 
 
 @app.listener('after_server_stop')

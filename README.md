@@ -36,28 +36,28 @@
 
 در محیط عملیاتی مقادیر زیر را فالس قرار دهید
 
-DEBUG = True
+    DEBUG = True
 
-ACCESS_LOG = True
+    ACCESS_LOG = True
 
 پورت و هاستی که برنامه بر روی آن قابل دیدن است
 
-PORT = 8888
-HOST = "localhost"
+    PORT = 8888
+    HOST = "localhost"
 
 آدرس و اطلاعات دیتابیس
 
-DB_DSN = "postgresql://localhost/farhang"
+    DB_DSN = "postgresql://localhost/farhang"
 
 
 آدرس ردیس و مقدار زمانی که داده‌های کش شده را نگهداری میکند به ثانیه
 
-CACHE_DSN = "redis://localhost"
+    CACHE_DSN = "redis://localhost"
 
-CACHE_EXPIRE_TIME = 3600
+    CACHE_EXPIRE_TIME = 3600
  
 
-###مقدار دهی اولیه دیتابیس
+### مقدار دهی اولیه دیتابیس
 
     psql -U postgres farhang < farhang.psql
     

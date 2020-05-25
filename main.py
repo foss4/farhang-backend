@@ -6,11 +6,11 @@ from sanic import Sanic
 
 from dictionary.urls import dic_bp_v1
 
-app = Sanic("YATIM")
+app = Sanic("FARHANG")
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) + "/.env"
-os.environ.setdefault("YATIM_SETTINGS", dir_path)
-app.config.from_envvar('YATIM_SETTINGS')
+os.environ.setdefault("FARHANG_SETTINGS", dir_path)
+app.config.from_envvar('FARHANG_SETTINGS')
 
 app.blueprint(dic_bp_v1)
 

@@ -1,4 +1,5 @@
 from utils.decorators import cache
+from utils.helpers import group_by_key
 
 from .models import Word
 from .repository import DictionaryRepositoryInstance, WordRepositoryInstance
@@ -27,12 +28,12 @@ async def get_word_by_dic(request, dictionary_id, name):
         request.app.pool
     )
     return [
-        {
-            "name": item["name"],
-            "meaning": item["meaning"],
-            "dictionary": item["fa_name"]
-        } for item in results
-    ]
+               {
+                    "name": item["name"],
+                    "meaning": item["meaning"],
+                    "dictionary": item["fa_name"]
+                } for item in results
+            ]
 
 
 @cache
@@ -43,10 +44,13 @@ async def get_word(request, name):
         word,
         request.app.pool
     )
-    return [
-        {
-            "name": item["name"],
-            "meaning": item["meaning"],
-            "dictionary": item["fa_name"]
-        } for item in results
-    ]
+    return group_by_key(
+        [
+            {
+                "name": item["name"],
+                "meaning": item["meaning"],
+                "dictionary": item["fa_name"]
+            } for item in results
+        ],
+        "dictionary"
+    )
